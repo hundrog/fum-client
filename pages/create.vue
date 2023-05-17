@@ -72,7 +72,7 @@
     <v-row>
       <v-col sm="12" md="6">
         <VueDatePicker
-          v-model="dateStart"
+          v-model="dateStart.value.value"
           :max-date="new Date()"
           :enable-time-picker="false"
           auto-apply
@@ -83,7 +83,8 @@
           <template #trigger>
             <v-text-field
               label="Fecha de creación"
-              :model-value="formatDate(dateStart)"
+              :model-value="formatDate(dateStart.value.value)"
+              :error-messages="dateStart.errorMessage.value"
             />
           </template>
         </VueDatePicker>
@@ -91,8 +92,8 @@
 
       <v-col sm="12" md="6" >
         <VueDatePicker
-          v-model="dateEnd"
-          :max-date="new Date()"
+          v-model="dateEnd.value.value"
+          :min-date="new Date()"
           :enable-time-picker="false"
           auto-apply
           :format="formatDate"
@@ -103,7 +104,8 @@
           <template #trigger>
             <v-text-field
               label="Fecha fin"
-              :model-value="formatDate(dateEnd)"
+              :model-value="formatDate(dateEnd.value.value)"
+              :error-messages="dateEnd.errorMessage.value"
             />
           </template>
         </VueDatePicker>
@@ -155,10 +157,8 @@ import { format } from "date-fns";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-const dateStart = ref(new Date());
-const dateEnd = ref(new Date());
 const formatDate = (date) => {
-  return format(date, "dd/MM/yyyy");
+  return date === undefined ? "" : format(date, "dd/MM/yyyy");
 };
 const { handleSubmit } = useForm({
   validationSchema: {
@@ -192,16 +192,27 @@ const { handleSubmit } = useForm({
 
       return "Selecciona una opción";
     },
-    training(value) {
+    training() {
       return true;
     },
-    jobPosting(value) {
+    jobPosting() {
       return true;
     },
     notify(value) {
       if (value) return true;
 
       return "Selecciona al menos una opción";
+    },
+    dateStart(value) {
+      console.log(duration.value.value)
+      if (value) return true;
+
+      return "La fecha es requerida";
+    },
+    dateEnd(value) {
+      if (duration.value.value === "permanent" || (duration.value.value === "temporal" && value)) return true;
+
+      return "La fecha es requerida";
     },
   },
 });
@@ -214,6 +225,8 @@ const training = useField("training");
 const jobPosting = useField("jobPosting");
 const justification = useField("justification");
 const notify = useField("notify");
+const dateStart = useField("dateStart");
+const dateEnd = useField("dateEnd");
 
 const positions = ref(["Puesto 1", "Puesto 2", "Puesto 3", "Puesto 4"]);
 const persons = ref(["Persona 1", "Persona 2", "Persona 3", "Persona 4"]);

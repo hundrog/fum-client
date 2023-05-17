@@ -2,7 +2,9 @@
 import { ref } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-
+const statusColor = (status) => {
+  return status === "Completo" ? "success" : "grey-darken-2"
+}
 const fums = [
   {
     name: "Julion Alvarez",
@@ -175,7 +177,9 @@ const filteredList = () => {
     <tbody>
       <tr v-for="item in filteredList()" :key="item.name">
         <td>{{ item.name }}</td>
-        <td>{{ item.status }}</td>
+        <td>
+          <v-chip class="ma-2" :color="statusColor(item.status)">{{ item.status }}</v-chip>
+        </td>
         <td>{{ item.area }}</td>
         <td>{{ item.date }}</td>
       </tr>
@@ -191,6 +195,6 @@ const filteredList = () => {
   width: 100%;
 }
 .dp__theme_light {
---dp-primary-color: #C62828;
+  --dp-primary-color: #c62828;
 }
 </style>
