@@ -139,49 +139,48 @@ const filteredList = () => {
 </script>
 
 <template>
-  <v-container>
-    <div class="pa-2"></div>
-    <v-toolbar density="compact">
-      <v-col sm="2">
-        <VueDatePicker v-model="month" month-picker :teleport="true">
-          <template #trigger>
-            <v-btn prepend-icon="mdi-calendar">{{ formatSelect(month) }}</v-btn>
-          </template>
-          <template #action-row="{ selectDate }">
-            <div class="action-row">
-              <v-btn color="primary" @click="selectDate">Select</v-btn>
-            </div>
-          </template>
-        </VueDatePicker>
-      </v-col>
-      <v-spacer></v-spacer>
-      <v-text-field
-        hide-details
-        label="Search"
-        prepend-icon="mdi-magnify"
-        single-line
-        v-model="search"
-      ></v-text-field>
-    </v-toolbar>
-    <v-table fixed-header height="80vh">
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Status</th>
-          <th class="text-left">Area</th>
-          <th class="text-left">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in filteredList()" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.status }}</td>
-          <td>{{ item.area }}</td>
-          <td>{{ item.date }}</td>
-        </tr>
-      </tbody>
-    </v-table>
-  </v-container>
+  <v-toolbar density="compact">
+    <v-col sm="2">
+      <VueDatePicker
+        v-model="month"
+        month-picker
+        :teleport="true"
+        :max-date="new Date()"
+        auto-apply
+        locale="es"
+      >
+        <template #trigger>
+          <v-btn prepend-icon="mdi-calendar">{{ formatSelect(month) }}</v-btn>
+        </template>
+      </VueDatePicker>
+    </v-col>
+    <v-spacer></v-spacer>
+    <v-text-field
+      hide-details
+      label="Search"
+      prepend-icon="mdi-magnify"
+      single-line
+      v-model="search"
+    ></v-text-field>
+  </v-toolbar>
+  <v-table fixed-header height="80vh">
+    <thead>
+      <tr>
+        <th class="text-left">Name</th>
+        <th class="text-left">Status</th>
+        <th class="text-left">Area</th>
+        <th class="text-left">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in filteredList()" :key="item.name">
+        <td>{{ item.name }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.area }}</td>
+        <td>{{ item.date }}</td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>
 
 <style lang="scss">
@@ -190,5 +189,8 @@ const filteredList = () => {
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+.dp__theme_light {
+--dp-primary-color: #C62828;
 }
 </style>

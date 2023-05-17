@@ -16,6 +16,7 @@
     "@mdi/font": "^7.2.96",
     "@vuepic/vue-datepicker": "^5.1.0",
     "sass": "^1.62.1",
+    "vee-validate": "^4.9.3",
     "vuetify": "^3.2.4"
   }
 }

@@ -8,6 +8,7 @@ const getRoute = (text) => {
 const drawer = ref(true);
 const links = [
   ["mdi-table", "Home"],
+  ["mdi-plus-box-multiple-outline", "Create"],
   ["mdi-view-dashboard-outline", "Statistics"],
   ["mdi-bell", "Notifications"],
   ["mdi-information-outline", "About"],
@@ -50,7 +51,9 @@ const links = [
     </v-navigation-drawer>
 
     <v-main>
-      <slot />
+      <v-container class="pt-12">
+        <slot />
+      </v-container>
     </v-main>
   </v-app>
 </template>

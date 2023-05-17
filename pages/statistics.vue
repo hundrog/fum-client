@@ -1,3 +1,1 @@
-<template>
-  <v-container>Statistics.vue</v-container>  
-</template>
+<template>Statistics.vue</template>
