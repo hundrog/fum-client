@@ -43,7 +43,7 @@ const links = [
             <v-icon>{{ icon }}</v-icon>
           </template>
 
-          <NuxtLink :to="getRoute(text)">
+          <NuxtLink :to="getRoute(text)" class="nuxt-link-active">
             <v-list-item-title>{{ text }}</v-list-item-title>
           </NuxtLink>
         </v-list-item>
@@ -57,3 +57,9 @@ const links = [
     </v-main>
   </v-app>
 </template>
+
+<style lang="scss">
+.nuxt-link-active {
+  color: black;
+}
+</style>
