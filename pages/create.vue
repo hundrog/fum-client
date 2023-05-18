@@ -72,7 +72,7 @@
     <v-row>
       <v-col sm="12" md="6">
         <VueDatePicker
-          v-model="dateStart.value.value"
+          v-model="date_start.value.value"
           :max-date="new Date()"
           :enable-time-picker="false"
           auto-apply
@@ -83,8 +83,8 @@
           <template #trigger>
             <v-text-field
               label="Fecha de creación"
-              :model-value="formatDate(dateStart.value.value)"
-              :error-messages="dateStart.errorMessage.value"
+              :model-value="formatDate(date_start.value.value)"
+              :error-messages="date_start.errorMessage.value"
             />
           </template>
         </VueDatePicker>
@@ -92,7 +92,7 @@
 
       <v-col sm="12" md="6" >
         <VueDatePicker
-          v-model="dateEnd.value.value"
+          v-model="date_end.value.value"
           :min-date="new Date()"
           :enable-time-picker="false"
           auto-apply
@@ -104,8 +104,8 @@
           <template #trigger>
             <v-text-field
               label="Fecha fin"
-              :model-value="formatDate(dateEnd.value.value)"
-              :error-messages="dateEnd.errorMessage.value"
+              :model-value="formatDate(date_end.value.value)"
+              :error-messages="date_end.errorMessage.value"
             />
           </template>
         </VueDatePicker>
@@ -114,26 +114,57 @@
     </v-row>
     <v-row>
       <v-col sm="12" md="6">
-        <v-select
-          v-model="position1.value.value"
+        <v-combobox
+          v-model="current_position.value.value"
           :items="positions"
-          :error-messages="position1.errorMessage.value"
+          :error-messages="current_position.errorMessage.value"
           label="Puesto actual"
-        ></v-select>
+        ></v-combobox>
       </v-col>
 
       <v-col sm="12" md="6">
-        <v-select
-          v-model="position2.value.value"
+        <v-combobox
+          v-model="new_position.value.value"
           :items="positions"
-          :error-messages="position2.errorMessage.value"
+          :error-messages="new_position.errorMessage.value"
           label="Puesto a ocupar"
-        ></v-select>
+        ></v-combobox>
       </v-col>
     </v-row>
 
     <v-row>
-    <v-col sm="12" md="6" offset-md="6">
+    <v-col sm="12" md="6">
+      <v-select
+          v-model="current_boss.value.value"
+          :items="persons"
+          :error-messages="current_boss.errorMessage.value"
+          multiple
+          label="Jefe actual"
+        ></v-select>
+    </v-col>
+
+    <v-col sm="12" md="6">
+      <v-select
+          v-model="vacant_boss.value.value"
+          :items="persons"
+          :error-messages="vacant_boss.errorMessage.value"
+          multiple
+          label="Jefe de la vacante"
+        ></v-select>
+    </v-col>
+  </v-row>
+
+    <v-row>
+      <v-col sm="12" md="6">
+      <v-select
+          v-model="vacant_coordinator.value.value"
+          :items="persons"
+          :error-messages="vacant_coordinator.errorMessage.value"
+          multiple
+          label="Jefe coordinador de la vacante"
+        ></v-select>
+    </v-col>
+    <v-col sm="12" md="6">
         <v-select
           v-model="notify.value.value"
           :items="persons"
@@ -145,7 +176,7 @@
     </v-row>
 
     <div class="text-right py-4">
-      <v-btn class="me-4" type="submit"> submit </v-btn>
+      <v-btn class="me-4" type="submit"> guardar </v-btn>
     </div>
   </form>
 </template>
@@ -177,12 +208,12 @@ const { handleSubmit } = useForm({
 
       return "El numero de empleado es necesario";
     },
-    position1(value) {
+    current_position(value) {
       if (value) return true;
 
       return "Selecciona una opción";
     },
-    position2(value) {
+    new_position(value) {
       if (value) return true;
 
       return "Selecciona una opción";
@@ -203,30 +234,48 @@ const { handleSubmit } = useForm({
 
       return "Selecciona al menos una opción";
     },
-    dateStart(value) {
+    date_start(value) {
       console.log(duration.value.value)
       if (value) return true;
 
       return "La fecha es requerida";
     },
-    dateEnd(value) {
+    date_end(value) {
       if (duration.value.value === "permanent" || (duration.value.value === "temporal" && value)) return true;
 
       return "La fecha es requerida";
+    },
+    current_boss(value) {
+      if (value) return true;
+
+      return "Selecciona una opción";
+    },
+    vacant_boss(value) {
+      if (value) return true;
+
+      return "Selecciona una opción";
+    },
+    vacant_coordinator(value) {
+      if (value) return true;
+
+      return "Selecciona una opción";
     },
   },
 });
 const name = useField("name");
 const phone = useField("phone");
-const position1 = useField("position1");
-const position2 = useField("position2");
+const current_position = useField("current_position");
+const new_position = useField("new_position");
 const duration = useField("duration");
 const training = useField("training");
 const jobPosting = useField("jobPosting");
 const justification = useField("justification");
 const notify = useField("notify");
-const dateStart = useField("dateStart");
-const dateEnd = useField("dateEnd");
+const date_start = useField("date_start");
+const date_end = useField("date_end");
+const current_boss = useField("current_boss");
+const vacant_boss = useField("vacant_boss");
+const vacant_coordinator = useField("vacant_coordinator");
 
 const positions = ref(["Puesto 1", "Puesto 2", "Puesto 3", "Puesto 4"]);
 const persons = ref(["Persona 1", "Persona 2", "Persona 3", "Persona 4"]);
