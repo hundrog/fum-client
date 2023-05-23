@@ -13,4 +13,4 @@ RUN yarn install
 
 COPY . $APP/
 
-CMD ["yarn", "run", "dev"]
+CMD ./start-dev.sh

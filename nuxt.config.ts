@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@mdi/font/css/materialdesignicons.min.css",
   ],
   build: {
-    transpile: ["vuetify", '@vuepic/vue-datepicker'],
+    transpile: ["vuetify", "@vuepic/vue-datepicker"],
   },
+  modules: ["@vee-validate/nuxt"]
 });

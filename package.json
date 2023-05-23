@@ -18,9 +18,10 @@
   },
   "dependencies": {
     "@mdi/font": "^7.2.96",
+    "@vee-validate/nuxt": "^4.9.5",
     "@vuepic/vue-datepicker": "^5.1.1",
     "sass": "^1.62.1",
-    "vee-validate": "^4.9.4",
-    "vuetify": "^3.2.5"
+    "vuetify": "^3.2.5",
+    "yarn": "^1.22.19"
   }
 }
