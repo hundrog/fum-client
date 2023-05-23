@@ -1,5 +1,6 @@
 <template>
-  <form @submit.prevent="submit">
+  <LoadingCircle v-if="loading" />
+  <form @submit.prevent="submit" v-else>
     <v-row>
       <v-col sm="12" md="6">
         <v-text-field
@@ -114,21 +115,25 @@
     </v-row>
     <v-row>
       <v-col sm="12" md="6">
-        <v-combobox
+        <v-select
           v-model="current_position.value.value"
           :items="positions"
+          item-title="name"
+          item-value="id"
           :error-messages="current_position.errorMessage.value"
           label="Puesto actual"
-        ></v-combobox>
+        ></v-select>
       </v-col>
 
       <v-col sm="12" md="6">
-        <v-combobox
+        <v-select
           v-model="new_position.value.value"
           :items="positions"
+          item-title="name"
+          item-value="id"
           :error-messages="new_position.errorMessage.value"
           label="Puesto a ocupar"
-        ></v-combobox>
+        ></v-select>
       </v-col>
     </v-row>
 
@@ -137,8 +142,12 @@
       <v-select
           v-model="current_boss.value.value"
           :items="persons"
+          :hint="`${current_boss.value.value.position}`"
+          return-object
+          persistent-hint
+          item-title="name"
+          item-value="id"
           :error-messages="current_boss.errorMessage.value"
-          multiple
           label="Jefe actual"
         ></v-select>
     </v-col>
@@ -147,8 +156,12 @@
       <v-select
           v-model="vacant_boss.value.value"
           :items="persons"
+          :hint="`${vacant_boss.value.value.position}`"
+          return-object
+          persistent-hint
+          item-title="name"
+          item-value="id"
           :error-messages="vacant_boss.errorMessage.value"
-          multiple
           label="Jefe de la vacante"
         ></v-select>
     </v-col>
@@ -159,8 +172,12 @@
       <v-select
           v-model="vacant_coordinator.value.value"
           :items="persons"
+          :hint="`${vacant_coordinator.value.value.position}`"
+          return-object
+          persistent-hint
+          item-title="name"
+          item-value="id"
           :error-messages="vacant_coordinator.errorMessage.value"
-          multiple
           label="Jefe coordinador de la vacante"
         ></v-select>
     </v-col>
@@ -168,8 +185,10 @@
         <v-select
           v-model="notify.value.value"
           :items="persons"
-          :error-messages="notify.errorMessage.value"
+          item-title="name"
+          item-value="id"
           multiple
+          :error-messages="notify.errorMessage.value"
           label="Notificar a"
         ></v-select>
       </v-col>
@@ -235,7 +254,6 @@ const { handleSubmit } = useForm({
       return "Selecciona al menos una opción";
     },
     date_start(value) {
-      console.log(duration.value.value)
       if (value) return true;
 
       return "La fecha es requerida";
@@ -277,11 +295,29 @@ const current_boss = useField("current_boss");
 const vacant_boss = useField("vacant_boss");
 const vacant_coordinator = useField("vacant_coordinator");
 
-const positions = ref(["Puesto 1", "Puesto 2", "Puesto 3", "Puesto 4"]);
-const persons = ref(["Persona 1", "Persona 2", "Persona 3", "Persona 4"]);
+const positions = ref([]);
+const persons = ref([]);
+const loading = ref(true);
 
 const submit = handleSubmit((values) => {
   alert(JSON.stringify(values, null, 2));
+});
+
+nextTick(async () => {
+  const headers = { Authorization: `Bearer ${useCookie("token").value}` };
+
+  await $fetch("http://localhost:8080/api/selections", {
+    headers,
+    async onResponse({ request, response, options }) {
+      loading.value = false;
+      persons.value = response._data.persons;
+      positions.value = response._data.positions;
+    },
+    async onResponseError({ request, response, options }) {
+      if (response.status === 401) return navigateTo("/login");
+      if (response.status === 403) return navigateTo("/");
+    },
+  });
 });
 </script>
 

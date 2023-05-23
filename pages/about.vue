@@ -1,13 +1,6 @@
 <template>
-  <v-row align="center" justify="center" style="height: 80vh" v-if="loading">
-    <v-progress-circular
-      indeterminate
-      color="primary"
-      size="150"
-      width="7"
-    />
-  </v-row>
-  <v-list lines="one">
+  <LoadingCircle v-if="loading" />
+  <v-list lines="one" v-else>
     <v-list-item
       v-for="item in items"
       :key="item.id"
