@@ -10,6 +10,7 @@
           label="email"
           v-model="email.value.value"
           :error-messages="email.errorMessage.value"
+          autocomplete="email"
         ></v-text-field>
 
         <v-text-field
@@ -18,10 +19,11 @@
           type="password"
           v-model="password.value.value"
           :error-messages="password.errorMessage.value"
+          autocomplete="current-password"
         ></v-text-field>
 
         <div class="text-center py-4">
-          <v-btn class="me-4" type="submit"> Conectar </v-btn>
+          <v-btn block size="large" class="me-4" type="submit"> Conectar </v-btn>
         </div>
       </form>
     </v-col>
@@ -34,6 +36,7 @@ definePageMeta({
 });
 
 const token = useCookie("token");
+const profile = useCookie("user");
 const { handleSubmit, setFieldError } = useForm({
   validationSchema: {
     email(value) {
@@ -59,6 +62,7 @@ const submit = handleSubmit(async (values) => {
     setFieldError('password', error.value.data.error);
   } else if(data.value) {
     token.value = data.value.token;
+    profile.value = {...data.value.user};
     navigateTo('/');
   }
 });

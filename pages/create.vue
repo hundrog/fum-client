@@ -142,7 +142,6 @@
       <v-select
           v-model="current_boss.value.value"
           :items="persons"
-          :hint="`${current_boss.value.value.position}`"
           return-object
           persistent-hint
           item-title="name"
@@ -156,7 +155,6 @@
       <v-select
           v-model="vacant_boss.value.value"
           :items="persons"
-          :hint="`${vacant_boss.value.value.position}`"
           return-object
           persistent-hint
           item-title="name"
@@ -172,7 +170,6 @@
       <v-select
           v-model="vacant_coordinator.value.value"
           :items="persons"
-          :hint="`${vacant_coordinator.value.value.position}`"
           return-object
           persistent-hint
           item-title="name"
