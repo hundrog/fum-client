@@ -1,6 +1,6 @@
 <template>
   <v-row align="center" justify="center" style="height: 100vh">
-    <v-col cols="4">
+    <v-col sm="12" md="4">
       <div align="center">
         <v-img aspect-ratio="1" width="150" src="cedis-logo.png" />
       </div>
@@ -16,10 +16,12 @@
         <v-text-field
           name="password"
           label="password"
-          type="password"
           v-model="password.value.value"
           :error-messages="password.errorMessage.value"
           autocomplete="current-password"
+          :type="show1 ? 'text' : 'password'"
+      :append-inner-icon="show1 ? 'mdi-eye-off' : 'mdi-eye'"
+      @click:append-inner="show1 = !show1"
         ></v-text-field>
 
         <div class="text-center py-4">
@@ -37,6 +39,7 @@ definePageMeta({
 
 const token = useCookie("token");
 const profile = useCookie("user");
+const show1 = ref(false);
 const { handleSubmit, setFieldError } = useForm({
   validationSchema: {
     email(value) {

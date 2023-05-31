@@ -191,9 +191,9 @@
       </v-col>
     </v-row>
 
-    <div class="text-right py-4">
-      <v-btn class="me-4" type="submit"> guardar </v-btn>
-    </div>
+    <v-row justify="end" class="pb-4">
+      <v-btn class="me-4" type="submit"> Guardar </v-btn>
+    </v-row>
   </form>
 </template>
 

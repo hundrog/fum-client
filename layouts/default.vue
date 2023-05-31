@@ -12,17 +12,7 @@ const links = [
   ["mdi-plus-box-multiple-outline", "Create"],
   ["mdi-view-dashboard-outline", "Statistics"],
   ["mdi-bell-outline", "Notifications"],
-  ["mdi-account-outline", "Profile"],
 ];
-
-const getAvatarName = (name) => {
-  let initials = "";
-  name
-    .split(" ")
-    .slice(0, 2)
-    .forEach((word) => (initials += word.slice(0, 1)));
-  return initials;
-};
 </script>
 
 <template>
@@ -34,15 +24,14 @@ const getAvatarName = (name) => {
       ></v-app-bar-nav-icon>
 
       <v-toolbar-title>CEDIS - FUM</v-toolbar-title>
+
+      <AvatarMenu :user="profile" />
+      <div class="mx-3"></div>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer">
+    <v-navigation-drawer v-model="drawer" color =grey-lighten-4>
       <v-sheet color="red-darken-4" class="pa-4">
         <div class="text-center">
-          <v-avatar class="mb-4" color="amber-lighten-3" size="64">{{
-            getAvatarName(profile.name)
-          }}</v-avatar>
-
           <div>{{ profile.name }}</div>
         </div>
       </v-sheet>
@@ -72,6 +61,7 @@ const getAvatarName = (name) => {
 
 <style lang="scss">
 .nuxt-link-active {
-  color: black;
+  color: #212121;
+  text-decoration-line: none;
 }
 </style>
